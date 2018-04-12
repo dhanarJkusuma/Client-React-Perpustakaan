@@ -116,7 +116,10 @@ class CardTransactionStatus extends Component {
            className={ classes.chip }
          />
       )
-    })
+    });
+    const isWaitingForApprove = this.props.transaction.returnDate != null;
+    const label = isWaitingForApprove ? "Menunggu Persetujuan" : "Belum Dikembalikan";
+
     return (
       <div className={classes.item}>
         <ExpansionPanel>
@@ -127,6 +130,9 @@ class CardTransactionStatus extends Component {
            <div className={classes.column}>
              <Typography className={classes.secondaryHeading}>{ date }</Typography>
            </div>
+           <div className={classes.column}>
+             <Chip label={ label } className={classes.chip} />
+           </div>
          </ExpansionPanelSummary>
          <ExpansionPanelDetails className={classes.details}>
            <div className={classes.column}>
@@ -135,10 +141,14 @@ class CardTransactionStatus extends Component {
          </ExpansionPanelDetails>
          <Divider />
          <ExpansionPanelActions>
-           <Button size="small" color="primary" onClick={ this.handleCompleteTransaction }>
-            Kembalikan
-            <AssignmentReturnIcon className={classes.rightIcon} />
-           </Button>
+          { this.props.transaction.returnDate == null ?
+            <Button size="small" color="primary" onClick={ this.handleCompleteTransaction }>
+             Kembalikan
+             <AssignmentReturnIcon className={classes.rightIcon} />
+            </Button>
+            : ""
+          }
+
          </ExpansionPanelActions>
        </ExpansionPanel>
       </div>

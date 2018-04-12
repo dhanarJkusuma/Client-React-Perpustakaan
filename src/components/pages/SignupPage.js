@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import StaticNavbar from '../common/StaticNavbar';
-import LoginForm from '../forms/LoginForm';
-import { login } from '../../actions/auth';
+import SignupForm from '../forms/SignupForm';
+import { signup } from '../../actions/auth';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { checkToken } from '../../actions/auth';
 
-class LoginPage extends Component{
+class SignupPage extends Component{
   state = {}
 
-  onLogin = (data) => this.props.login(data).then(() => this.props.history.push('/dashboard/watch'));
+  onSignup = (data) => this.props.signup(data).then(() => this.props.history.push('/dashboard/watch'));
 
   componentWillMount = () => {
-    this.checkToken();
+    //this.checkToken();
+  }
+
+
+  redirectToSignIn = () => {
+    this.props.history.push('/signin');
   }
 
   checkToken = () => {
@@ -29,27 +34,23 @@ class LoginPage extends Component{
       }
     }
 
-    redirectSignUp = () => {
-      this.props.history.push('/signup');
-    }
-
 
   render(){
     return (
       <div>
-        <StaticNavbar title="E-Libra | Sign In Page" />
+        <StaticNavbar title="E-Libra | Sign Up Page" />
 
-        <LoginForm submit={ this.onLogin } signup={ this.redirectSignUp } />
+        <SignupForm submit={ this.onSignup } signin={ this.redirectToSignIn } />
       </div>
     );
   }
 }
 
-LoginPage.propType = {
+SignupPage.propType = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
   login: PropTypes.func.isRequired
 }
 
-export default connect(null, { login, checkToken })(LoginPage);
+export default connect(null, { signup, checkToken })(SignupPage);

@@ -21,7 +21,8 @@ import DashboardInnerBooks from './DashboardInnerBooks';
 import DashboardInnerBorrow from './DashboardInnerBorrow';
 import DashboardInnerStatus from './DashboardInnerStatus';
 import CardDialog from '../common/CardDialog';
-
+import AuthRoute from '../routes/AuthRoute';
+import { checkToken } from '../../actions/auth';
 import {updatePendingTrx, getIncompleteTransaction} from '../../actions/transaction';
 const styles = theme => ({
   contentCard: {
@@ -39,7 +40,8 @@ class UserDashboard extends Component{
   state = {
     value: 'watch',
     openDialogLogout: false,
-    menu: 'watch'
+    menu: 'watch',
+    authed: true
   };
 
   constructor(props){
@@ -47,8 +49,22 @@ class UserDashboard extends Component{
   }
 
   componentDidMount(){
+    this.checkAuth();
     this.fetchIncompleteTransaction();
   }
+
+  checkAuth = () => {
+    let token = localStorage.getItem('eLibraToken');
+    if(typeof token == 'undefined' || token == null){
+      this.setState({ authed : false });
+    }
+    this.props.checkToken(token).then(res =>  {
+      this.setState({ authed : true });
+    }).catch(err => {
+      this.setState({ authed : false });
+    })
+  }
+
 
   handleChange = (event, value) => {
      this.setState({ value });
@@ -76,7 +92,8 @@ class UserDashboard extends Component{
    };
 
    handleLogoutOpen = (e) => {
-     this.setState({ openDialogLogout: true });
+     localStorage.clear();
+     this.props.history.push('/');
    };
 
    handleLogoutClose = (e) => {
@@ -99,9 +116,9 @@ class UserDashboard extends Component{
       <div className={classes.contentCard}>
         <StaticNavbar title="E-Libra | Dashboard" />
         <Switch>
-          <Route path='/dashboard/watch' component={DashboardInnerBooks}/>
-          <Route path='/dashboard/borrow' component={DashboardInnerBorrow}/>
-          <Route path='/dashboard/status' component={DashboardInnerStatus}/>
+          <AuthRoute authed={this.state.authed} path='/dashboard/watch' component={DashboardInnerBooks}/>
+          <AuthRoute authed={this.state.authed} path='/dashboard/borrow' component={DashboardInnerBorrow}/>
+          <AuthRoute authed={this.state.authed} path='/dashboard/status' component={DashboardInnerStatus}/>
           {/* when none of the above match, <NoMatch> will be rendered */}
           <Route component={DashboardInnerBorrow}/>
         </Switch>
@@ -149,7 +166,8 @@ UserDashboard.protoType = {
   cart: PropTypes.object.isRequired,
   pendingTransaction: PropTypes.object.isRequired,
   getIncompleteTransaction: PropTypes.func.isRequired,
-  updatePendingTrx: PropTypes.func.isRequired
+  updatePendingTrx: PropTypes.func.isRequired,
+  checkToken: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state){
@@ -162,5 +180,6 @@ function mapStateToProps(state){
 const styledComponent = withStyles(styles)(UserDashboard);
 export default connect(mapStateToProps, {
   getIncompleteTransaction,
-  updatePendingTrx
+  updatePendingTrx,
+  checkToken
 })(styledComponent)

@@ -36,10 +36,6 @@ class LoginForm extends Component{
     showErrors: false
   }
 
-  constructor(props){
-    super(props);
-  }
-
   onChange = (e) => {
     this.setState({
         data: {
@@ -48,6 +44,7 @@ class LoginForm extends Component{
         }
     })
   }
+
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -108,6 +105,9 @@ class LoginForm extends Component{
             <Button raised color="primary" className={ classes.button } onClick={ this.onSubmit }>
               Sign In
             </Button>
+            <Button raised color="secondary" className={ classes.button } onClick={ this.props.signup }>
+              Sign Up
+            </Button>
           </CardActions>
         </Card>
       </div>
@@ -117,7 +117,11 @@ class LoginForm extends Component{
 
 
 LoginForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   classes: PropTypes.object.isRequired,
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired
 };
 export default withStyles(styles)(LoginForm);

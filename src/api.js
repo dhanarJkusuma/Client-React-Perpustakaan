@@ -22,7 +22,8 @@ function getCredentialsAxios(){
 
 export default {
   user: {
-    login: (credentials) => axios.post(`${BASE_URL}/api/v1/auth/login`, credentials).then(res => res.data)
+    login: (credentials) => axios.post(`${BASE_URL}/api/v1/auth/login`, credentials).then(res => res.data),
+    signup: (payload) => axios.post(`${BASE_URL}/api/v1/auth/register`, payload).then(res => res.data)
   },
   book: {
     fetch: () => getCredentialsAxios().get('/api/v1/book').then(res => res.data)
@@ -31,5 +32,8 @@ export default {
     create: (payload) => getCredentialsAxios().post('/api/v1/transaction', payload),
     getIncompleteTransaction: () => getCredentialsAxios().get('/api/v1/transaction/in-complete').then(res => res.data),
     completeTransaction: (transactionId, payload) => getCredentialsAxios().put(`/api/v1/transaction/return/${transactionId}`, payload)
+  },
+  auth: {
+    checkToken: (token) => getCredentialsAxios().get(`/api/v1/auth/check-token?token=${token}`).then(res => res.data)
   }
 }
