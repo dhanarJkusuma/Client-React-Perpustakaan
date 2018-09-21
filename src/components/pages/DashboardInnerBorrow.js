@@ -57,7 +57,6 @@ class DashboardInnerBorrow extends Component{
 
   handleDismissMessage = () => {
     this.setState({
-      ...this.state,
       errorMessage: null,
       showErrors: false
     });
@@ -65,7 +64,6 @@ class DashboardInnerBorrow extends Component{
 
   handleShowErrorMessage = (message) => {
     this.setState({
-      ...this.state,
       errorMessage: message,
       showErrors: true
     })
@@ -73,7 +71,6 @@ class DashboardInnerBorrow extends Component{
 
   handleDismissNotif = () => {
     this.setState({
-      ...this.state,
       notifMessage: null,
       showNotif: false
     });
@@ -81,7 +78,6 @@ class DashboardInnerBorrow extends Component{
 
   handleNotificationMessage = (message) => {
     this.setState({
-      ...this.state,
       notifMessage: message,
       showNotif: true
     })

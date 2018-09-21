@@ -63,7 +63,6 @@ class SignupForm extends Component{
       }
       this.setState({ errors: err.response.data.errors })
       this.setState({ errorMessage });
-      console.log(this.state)
     }).catch((err) => {
       // DO SOMETHING
     });
@@ -112,9 +111,9 @@ class SignupForm extends Component{
 
             <TextField
                id="name_field"
-               label="Nama"
+               label="Name"
                name="name"
-               placeholder="Nama"
+               placeholder="Name"
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
@@ -122,29 +121,25 @@ class SignupForm extends Component{
                helperText={ errors.name !== null && typeof errors.name !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.name) : "" }
              />
 
+            <br />
+            <br />
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="controlled-open-select">gender</InputLabel>
                 <Select
-                  open={this.state.open}
-                  onClose={this.handleClose}
-                  onOpen={this.handleOpen}
                   value={this.state.data.gender}
-                  onChange={this.handleChange}
-                  inputProps={{
-                    name: 'gender',
-                    id: 'controlled-open-select',
-                  }}
+                  onChange={this.onChange}
+                  name="gender"
                 >
-                  <MenuItem value="MALE">Laki-Laki</MenuItem>
-                  <MenuItem value="FEMALE">Perempuan</MenuItem>
+                  <MenuItem value={"MALE"}>Male</MenuItem>
+                  <MenuItem value={"FEMALE"}>Female</MenuItem>
                 </Select>
              </FormControl>
 
              <TextField
                 id="phone_field"
-                label="No. Telp"
+                label="Phone No"
                 name="phone"
-                placeholder="No. Telp"
+                placeholder="Phone No"
                 type="number"
                 className={classes.textField}
                 margin="normal"
@@ -155,9 +150,9 @@ class SignupForm extends Component{
 
               <TextField
                  id="address_field"
-                 label="Alamat"
+                 label="Address"
                  name="address"
-                 placeholder="Alamat"
+                 placeholder="Address"
                  type="text"
                  className={classes.textField}
                  margin="normal"
@@ -181,9 +176,9 @@ class SignupForm extends Component{
 
                 <TextField
                    id="company_field"
-                   label="Perusahaan"
+                   label="Company"
                    name="company"
-                   placeholder="Perusahaan"
+                   placeholder="Company"
                    type="text"
                    className={classes.textField}
                    margin="normal"
@@ -194,9 +189,9 @@ class SignupForm extends Component{
 
                  <TextField
                     id="employee_no_field"
-                    label="No. Karyawan"
+                    label="Employee No."
                     name="employeeNo"
-                    placeholder="No. Karyawan"
+                    placeholder="Employee No."
                     type="text"
                     className={classes.textField}
                     margin="normal"
@@ -207,9 +202,9 @@ class SignupForm extends Component{
 
                   <TextField
                      id="work_unit_field"
-                     label="Unit Pekerjaan"
+                     label="Unit Work"
                      name="workUnit"
-                     placeholder="Unit Pekerjaan"
+                     placeholder="Unit Work"
                      type="text"
                      className={classes.textField}
                      margin="normal"

@@ -56,7 +56,6 @@ class DashboardInnerBooks extends Component{
         totalPage
       };
       this.setState({
-        ...this.state,
         data: result
       });
     });
@@ -64,7 +63,6 @@ class DashboardInnerBooks extends Component{
 
   handleDismissMessage = () => {
     this.setState({
-      ...this.state,
       errorMessage: null,
       showErrors: false
     });
@@ -72,7 +70,6 @@ class DashboardInnerBooks extends Component{
 
   handleShowErrorMessage = (message) => {
     this.setState({
-      ...this.state,
       errorMessage: message,
       showErrors: true
     })
@@ -80,7 +77,6 @@ class DashboardInnerBooks extends Component{
 
   fetchBookWithPagination = (page) => {
     this.setState({
-      ...this.state,
       page
     });
     this.props.fetchAllBook(page, this.state.request.size).then(res => {
@@ -93,7 +89,6 @@ class DashboardInnerBooks extends Component{
         totalPage
       };
       this.setState({
-        ...this.state,
         data: result
       });
     });

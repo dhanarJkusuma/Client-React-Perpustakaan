@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 
 
 import SnackBarMessage from '../common/SnackBarMessage';
+import ErrorHandlerForm from '../../helpers/ErrorHandlerForm';
 
 const styles = theme => ({
   card: {
@@ -50,6 +51,12 @@ class LoginForm extends Component{
     this.props.submit(this.state.data).then(() => {
       let error = {};
       this.setState({ errors: error });
+    }, (err) => {
+      let errorMessage = {
+        global: err.response.data.message
+      }
+      this.setState({ errors: err.response.data.errors })
+      this.setState({ errorMessage });
     }).catch((err) => {
       let statusCode = err.response.status;
       switch (statusCode) {
@@ -69,7 +76,7 @@ class LoginForm extends Component{
 
   render(){
     const { classes } = this.props;
-    // const { data, errors, loading } = this.state;
+    const { errors } = this.state;
     return (
       <div>
         <SnackBarMessage
@@ -87,6 +94,9 @@ class LoginForm extends Component{
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
+               error={ typeof errors.username !== 'undefined' }
+              helperText={ errors.username !== null && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.username) : "" }
+               
              />
 
              <TextField
@@ -98,6 +108,8 @@ class LoginForm extends Component{
                 autoComplete="current-password"
                 margin="normal"
                 onChange={ this.onChange }
+                error={ typeof errors.password !== 'undefined' }
+                helperText={ errors.password !== null && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.password) : "" }
             />
           </CardContent>
           <CardActions>
