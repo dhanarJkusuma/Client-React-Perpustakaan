@@ -42,7 +42,7 @@ class CardTransaction extends Component {
 
   handleRemove = (e) => {
     let foundInCartIndex = -1;
-    this.props.cart.foreach((c, index) => {
+    this.props.cart.forEach((c, index) => {
       if(c.code === this.props.book.code){
         foundInCartIndex = index;
         return;
@@ -55,7 +55,7 @@ class CardTransaction extends Component {
   }
 
   findBook = (onChange) => {
-    this.props.cart.foreach((c, index) => {
+    this.props.cart.forEach((c, index) => {
       if(c.code === this.props.book.code){
         onChange(c, index);
         return;

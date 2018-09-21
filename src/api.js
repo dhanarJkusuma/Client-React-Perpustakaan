@@ -19,7 +19,7 @@ export default {
     signup: (payload) => axios.post(`${BASE_URL}/api/v1/auth/register`, payload).then(res => res.data)
   },
   book: {
-    fetch: () => getCredentialsAxios().get('/api/v1/book').then(res => res.data)
+    fetch: (page, size) => getCredentialsAxios().get(`/api/v1/book?page=` + page + `&size=` + size).then(res => res.data)
   },
   transaction: {
     create: (payload) => getCredentialsAxios().post('/api/v1/transaction', payload),

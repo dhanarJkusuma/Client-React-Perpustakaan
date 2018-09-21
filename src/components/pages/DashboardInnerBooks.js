@@ -8,6 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import CardBook from '../common/CardBook';
 import SnackBarMessage from '../common/SnackBarMessage';
 import { fetchAllBook } from '../../actions/books';
+import PaginationButton from '../common/PaginationButton';
 
 const styles = theme => ({
   root: {
@@ -35,13 +36,17 @@ class DashboardInnerBooks extends Component{
       totalPage: 0,
       page: 0
     },
+    request: {
+      page: 0,
+      size: 15
+    },
     cart: [],
     showErrors: false,
     errorMessage: null
   }
 
   componentDidMount(){
-    this.props.fetchAllBook().then(res => {
+    this.props.fetchAllBook(this.state.request.page, this.state.request.size).then(res => {
       let { data, totalElements, page, totalPage } = res;
       let result = {
         ...this.state.data,
@@ -51,6 +56,7 @@ class DashboardInnerBooks extends Component{
         totalPage
       };
       this.setState({
+        ...this.state,
         data: result
       });
     });
@@ -72,9 +78,31 @@ class DashboardInnerBooks extends Component{
     })
   }
 
+  fetchBookWithPagination = (page) => {
+    this.setState({
+      ...this.state,
+      page
+    });
+    this.props.fetchAllBook(page, this.state.request.size).then(res => {
+      let { data, totalElements, page, totalPage } = res;
+      let result = {
+        ...this.state.data,
+        books: data,
+        totalElements,
+        page,
+        totalPage
+      };
+      this.setState({
+        ...this.state,
+        data: result
+      });
+    });
+  }
+
   render(){
     const { classes } = this.props;
     let listBook = this.state.data.books.map((item, index) => <CardBook key={index} book={item} showErrors={ this.handleShowErrorMessage }/>);
+    let pagination = this.state.data.books.length > 0 ? <PaginationButton page={ this.state.data.page } totalPages={ this.state.data.totalPage } onChangePage={ this.fetchBookWithPagination }/> : ""
     return (
       <div className={classes.root}>
         <SnackBarMessage
@@ -83,8 +111,10 @@ class DashboardInnerBooks extends Component{
           message={ this.state.errorMessage }
         />
         <GridList className={ classes.gridList } padding={10}>
-        { listBook }
+          { listBook }
         </GridList>
+
+        { pagination }
       </div>
     );
   }

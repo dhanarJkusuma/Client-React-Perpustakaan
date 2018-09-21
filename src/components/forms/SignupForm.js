@@ -75,7 +75,7 @@ class SignupForm extends Component{
 
   render(){
     const { classes } = this.props;
-    const { data, errors, loading } = this.state;
+    const { errors } = this.state;
     return (
       <div>
         <SnackBarMessage
