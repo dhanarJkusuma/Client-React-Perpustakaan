@@ -22,7 +22,7 @@ class SignupPage extends Component{
 
   checkToken = () => {
       var token = localStorage.getItem('eLibraToken');
-      if(typeof token != 'undefined' && token != null){
+      if(typeof token !== 'undefined' && token !== null){
         // checkToken
         this.props.checkToken(token).then(res => {
           // success

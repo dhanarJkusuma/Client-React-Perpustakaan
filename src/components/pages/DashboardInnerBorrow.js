@@ -3,7 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
-import List, { ListItem } from 'material-ui/List';
+import List from 'material-ui/List';
 
 import { ZonedDateTime } from 'js-joda';
 import CardTransaction from '../common/CardTransaction';
@@ -53,10 +53,6 @@ class DashboardInnerBorrow extends Component{
     errorMessage: null,
     notifMessage: null,
     openDialogConfirm: false,
-  }
-
-  constructor(props){
-    super(props);
   }
 
   handleDismissMessage = () => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GridList, { GridListTile } from 'material-ui/GridList';
+import GridList from 'material-ui/GridList';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
@@ -38,10 +38,6 @@ class DashboardInnerBooks extends Component{
     cart: [],
     showErrors: false,
     errorMessage: null
-  }
-
-  constructor(props){
-    super(props);
   }
 
   componentDidMount(){

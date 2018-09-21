@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 
 
@@ -70,7 +69,7 @@ class LoginForm extends Component{
 
   render(){
     const { classes } = this.props;
-    const { data, errors, loading } = this.state;
+    // const { data, errors, loading } = this.state;
     return (
       <div>
         <SnackBarMessage
@@ -117,9 +116,6 @@ class LoginForm extends Component{
 
 
 LoginForm.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired,
   classes: PropTypes.object.isRequired,
   submit: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired

@@ -27,10 +27,6 @@ class CardBook extends Component{
     actualStock: 0
   }
 
-  constructor(props){
-    super(props);
-  }
-
   componentDidMount(){
     this.handleActualStock();
   }
@@ -85,14 +81,12 @@ class CardBook extends Component{
       this.setState({ emptyStock : isEmptyStock});
     }else{
       let books = this.props.cart;
-      let index = 0;
       let currentBook = null;
       books.forEach(item => {
         if(this.props.book.code === item.code){
           currentBook = item;
           return;
         }
-        index++;
       });
       let actualStock = this.props.book.stock;
       if(currentBook != null){

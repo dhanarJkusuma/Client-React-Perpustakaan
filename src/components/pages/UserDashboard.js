@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
 import StaticNavbar from '../common/StaticNavbar';
 
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
 import { connect } from 'react-redux';
-
-import Icon from 'material-ui/Icon';
 import BookIcon from 'material-ui-icons/Book';
 import SwapVerticalCircleIcon from 'material-ui-icons/SwapVerticalCircle';
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
@@ -44,10 +41,6 @@ class UserDashboard extends Component{
     authed: true
   };
 
-  constructor(props){
-    super(props);
-  }
-
   componentDidMount(){
     this.checkAuth();
     this.fetchIncompleteTransaction();
@@ -55,7 +48,7 @@ class UserDashboard extends Component{
 
   checkAuth = () => {
     let token = localStorage.getItem('eLibraToken');
-    if(typeof token == 'undefined' || token == null){
+    if(typeof token === 'undefined' || token === null){
       this.setState({ authed : false });
     }
     this.props.checkToken(token).then(res =>  {

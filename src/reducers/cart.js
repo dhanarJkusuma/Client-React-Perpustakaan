@@ -13,7 +13,7 @@ export default function (state=INITIAL_STATE, action={}){
     case ADD_CART:
       var item = action.payload;
       item.quantity = 1;
-      var cart =  [
+      let cart =  [
         ...state.data.slice(0, state.data.length),
         item
       ];
@@ -25,25 +25,22 @@ export default function (state=INITIAL_STATE, action={}){
       var payload = action.payload;
       var existCart = state.data[payload.index];
       existCart.quantity = payload.quantity;
-      var cart = state.data.slice();
       return {
         ...state,
-        data: cart
+        data: state.data.slice()
       };
     case DELETE_CART:
-      var payload = action.payload;
-      var cart = state.data;
-      cart.splice(payload.index, 1);
-      var data = cart.slice();
+      cart.splice(action.payload, 1);
+      let data = cart.slice();
       return {
         ...state,
         data
       }
     case CLEAR_CART:
-      let data = [];
+      let emptyData = [];
       return {
         ...state,
-        data
+        emptyData
       }
     default:
       return state;

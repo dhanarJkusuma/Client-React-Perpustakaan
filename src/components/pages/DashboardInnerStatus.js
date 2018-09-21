@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
-import Button from 'material-ui/Button';
 import List, { ListItem } from 'material-ui/List';
 import CardTransactionStatus from '../common/CardTransactionStatus';
-import DoneAllIcon from 'material-ui-icons/DoneAll';
-import AssignmentReturnIcon from 'material-ui-icons/AssignmentReturn';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import ThumbUpIcon from 'material-ui-icons/ThumbUp';
@@ -58,11 +55,7 @@ class DashboardInnerBooks extends Component{
     showNotif: false,
     notifMessage: null
   }
-
-  constructor(props){
-    super(props);
-  }
-
+  
   componentDidMount(){
     this.fetchIncompleteTransaction();
   }

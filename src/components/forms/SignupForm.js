@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 
 import { InputLabel } from 'material-ui/Input';
@@ -11,6 +10,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import SnackBarMessage from '../common/SnackBarMessage';
+import ErrorHandlerForm from '../../helpers/ErrorHandlerForm';
 
 const styles = theme => ({
   card: {
@@ -39,6 +39,7 @@ class SignupForm extends Component{
     },
     loading: false,
     errors: {},
+    errorMessage: "",
     showErrors: false
   }
 
@@ -56,14 +57,15 @@ class SignupForm extends Component{
     this.props.submit(this.state.data).then(() => {
       let error = {};
       this.setState({ errors: error });
-    }).catch((err) => {
-      console.log(err);
-      let statusCode = err.response.status;
+    }, (err) => {
       let errorMessage = {
-        global: err.response.message
+        global: err.response.data.message
       }
-      this.setState({ errors: errorMessage });
-
+      this.setState({ errors: err.response.data.errors })
+      this.setState({ errorMessage });
+      console.log(this.state)
+    }).catch((err) => {
+      // DO SOMETHING
     });
   }
 
@@ -91,10 +93,12 @@ class SignupForm extends Component{
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
+               error={ typeof errors.username !== 'undefined' }
+               helperText={ errors.username !== null && typeof errors.username !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.username) : "" }
              />
 
              <TextField
-                id="password"
+                id="password_field"
                 label="Password"
                 className={classes.textField}
                 name="password"
@@ -102,6 +106,8 @@ class SignupForm extends Component{
                 autoComplete="current-password"
                 margin="normal"
                 onChange={ this.onChange }
+                error={ typeof errors.password !== 'undefined' }
+                helperText={ errors.password !== null && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.password) : "" }
             />
 
             <TextField
@@ -112,6 +118,8 @@ class SignupForm extends Component{
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
+               error={ typeof errors.name !== 'undefined' }
+               helperText={ errors.name !== null && typeof errors.name !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.name) : "" }
              />
 
             <FormControl className={classes.formControl}>
@@ -127,9 +135,6 @@ class SignupForm extends Component{
                     id: 'controlled-open-select',
                   }}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value="MALE">Laki-Laki</MenuItem>
                   <MenuItem value="FEMALE">Perempuan</MenuItem>
                 </Select>
@@ -144,6 +149,8 @@ class SignupForm extends Component{
                 className={classes.textField}
                 margin="normal"
                 onChange={ this.onChange }
+                error={ typeof errors.phone !== 'undefined' }
+                helperText={ errors.phone !== null && typeof errors.phone !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.phone) : "" }
               />
 
               <TextField
@@ -155,6 +162,8 @@ class SignupForm extends Component{
                  className={classes.textField}
                  margin="normal"
                  onChange={ this.onChange }
+                 error={ typeof errors.address !== 'undefined' }
+                 helperText={ errors.address !== null && typeof errors.address !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.address) : "" }
                />
 
                <TextField
@@ -166,6 +175,8 @@ class SignupForm extends Component{
                   className={classes.textField}
                   margin="normal"
                   onChange={ this.onChange }
+                  error={ typeof errors.email !== 'undefined' }
+                  helperText={ errors.email !== null && typeof errors.email !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.email) : "" }
                 />
 
                 <TextField
@@ -177,6 +188,8 @@ class SignupForm extends Component{
                    className={classes.textField}
                    margin="normal"
                    onChange={ this.onChange }
+                   error={ typeof errors.company !== 'undefined' }
+                   helperText={ errors.company !== null && typeof errors.company !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.company) : "" }
                  />
 
                  <TextField
@@ -188,6 +201,8 @@ class SignupForm extends Component{
                     className={classes.textField}
                     margin="normal"
                     onChange={ this.onChange }
+                    error={ typeof errors.employeeNo !== 'undefined' }
+                    helperText={ errors.employeeNo !== null && typeof errors.employeeNo !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.employeeNo) : "" }
                   />
 
                   <TextField
@@ -199,6 +214,8 @@ class SignupForm extends Component{
                      className={classes.textField}
                      margin="normal"
                      onChange={ this.onChange }
+                     error={ typeof errors.workUnit !== 'undefined' }
+                     helperText={ errors.workUnit !== null && typeof errors.workUnit !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.workUnit) : "" }
                    />
           </CardContent>
           <CardActions>
@@ -217,9 +234,6 @@ class SignupForm extends Component{
 
 
 SignupForm.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired,
   classes: PropTypes.object.isRequired,
   submit: PropTypes.func.isRequired,
   signin: PropTypes.func.isRequired

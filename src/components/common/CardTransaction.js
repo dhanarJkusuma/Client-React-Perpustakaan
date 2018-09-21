@@ -7,12 +7,8 @@ import TextField from 'material-ui/TextField';
 import { deleteCart, replaceStockCart } from '../../actions/transaction';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import Typography from 'material-ui/Typography';
-import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import SkipNextIcon from 'material-ui-icons/SkipNext';
 import DeleteIcon from 'material-ui-icons/Delete';
 import red from 'material-ui/colors/red';
 
@@ -44,22 +40,13 @@ const styles = theme => ({
 class CardTransaction extends Component {
   state = {}
 
-  constructor(props){
-    super(props);
-  }
-
-  componentWillReceiveProps(nextProps){
-  }
-
   handleRemove = (e) => {
     let foundInCartIndex = -1;
-    let index = 0;
-    this.props.cart.map(c => {
-      if(c.code == this.props.book.code){
+    this.props.cart.foreach((c, index) => {
+      if(c.code === this.props.book.code){
         foundInCartIndex = index;
         return;
       }
-      index++;
     });
 
     if(foundInCartIndex >= 0){
@@ -68,13 +55,11 @@ class CardTransaction extends Component {
   }
 
   findBook = (onChange) => {
-    let index = 0;
-    this.props.cart.map(c => {
-      if(c.code == this.props.book.code){
+    this.props.cart.foreach((c, index) => {
+      if(c.code === this.props.book.code){
         onChange(c, index);
         return;
       }
-      index++;
     });
   }
 
@@ -100,8 +85,6 @@ class CardTransaction extends Component {
   }
 
   handleSubtractQuantity = (index, foundedBook) => {
-    let stock = this.props.book.stock;
-
     if(foundedBook.quantity - 1 > 0){
       this.updateStockItemCart(index, foundedBook.quantity - 1);
     }else{
@@ -115,11 +98,8 @@ class CardTransaction extends Component {
   }
 
   render(){
-    const { classes, theme } = this.props;
-    const categories = this.props.book.categories.map((c, index) => {
-      return <p key={index}>#{c.categoryName}</p>
-    });
-    const redColor = red[500];
+    const { classes } = this.props;
+  
     return (
       <div className={classes.item}>
         <Card className={classes.card}>

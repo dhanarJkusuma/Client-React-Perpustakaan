@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import StaticNavbar from './components/common/StaticNavbar';
 import LoginPage from './components/pages/LoginPage';
 import SignupPage from './components/pages/SignupPage';
-import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import UserDashboard from './components/pages/UserDashboard';
 import './App.css';
 
