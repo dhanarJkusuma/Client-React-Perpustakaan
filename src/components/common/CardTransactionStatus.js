@@ -9,11 +9,14 @@ import ExpansionPanel, {
   ExpansionPanelSummary,
   ExpansionPanelActions,
 } from 'material-ui/ExpansionPanel';
+import VisibilityIcon from 'material-ui-icons/Visibility';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Chip from 'material-ui/Chip';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import { ZonedDateTime } from 'js-joda';
+
+import ResponsiveBookDialog from '../common/ResponsiveBookDialog';
 
 const styles = theme => ({
   item: {
@@ -56,11 +59,19 @@ const styles = theme => ({
 });
 
 class CardTransactionStatus extends Component {
+
   state = {
-    monthConstant : [
-      'Januari','Februari','Maret','April','Mei','Juni',
-      'Juli','Agustus','September','Oktober','November','Desember'
-    ]
+    selectedBook: {
+      code: "N/A",
+      title: "N/A",
+      author: "N/A",
+      editor: "N/A",
+      publisher: "N/A",
+      categories: "N/A",
+      year: 0,
+      quantity: 0
+    },
+    openBookDetail: false
   }
 
   handleCompleteTransaction = () => {
@@ -72,12 +83,30 @@ class CardTransactionStatus extends Component {
     this.props.onCompleteTransaction(trxId, payload);
   }
 
+  handleDetail = book => () => {
+    this.setState({ selectedBook: book, openBookDetail: true });
+  }
+
+  handleCloseDetailBook = () => {
+    let initBook = {
+        code: "N/A",
+        title: "N/A",
+        author: "N/A",
+        editor: "N/A",
+        publisher: "N/A",
+        categories: "N/A",
+        year: 0,
+        quantity: 0
+    };
+    this.setState({ selectedBook: initBook, openBookDetail: false })
+  }
+
   render(){
     const { classes } = this.props;
     const parsedZonedDateTime = ZonedDateTime.parse(this.props.transaction.borrowDate);
     const date = parsedZonedDateTime.dayOfMonth()
     + " "
-    + this.state.monthConstant[parsedZonedDateTime.monthValue()-1]
+    + parsedZonedDateTime.month()
     + " "
     + parsedZonedDateTime.year()
     + " "
@@ -96,12 +125,14 @@ class CardTransactionStatus extends Component {
              </Avatar>
            }
            label={ book.title }
+           onDelete={ this.handleDetail(book) }
            className={ classes.chip }
+           deleteIcon={<VisibilityIcon />}
          />
       )
     });
     const isWaitingForApprove = this.props.transaction.returnDate != null;
-    const label = isWaitingForApprove ? "Menunggu Persetujuan" : "Belum Dikembalikan";
+    const label = isWaitingForApprove ? "Waiting For Approval" : "Not Yet Returned ";
 
     return (
       <div className={classes.item}>
@@ -126,7 +157,7 @@ class CardTransactionStatus extends Component {
          <ExpansionPanelActions>
           { this.props.transaction.returnDate == null ?
             <Button size="small" color="primary" onClick={ this.handleCompleteTransaction }>
-             Kembalikan
+             Return Item
              <AssignmentReturnIcon className={classes.rightIcon} />
             </Button>
             : ""
@@ -134,6 +165,11 @@ class CardTransactionStatus extends Component {
 
          </ExpansionPanelActions>
        </ExpansionPanel>
+       <ResponsiveBookDialog
+          open={ this.state.openBookDetail }
+          book={ this.state.selectedBook }
+          onClose={ this.handleCloseDetailBook }
+       />
       </div>
     );
   }

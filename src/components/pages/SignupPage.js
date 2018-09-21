@@ -38,7 +38,7 @@ class SignupPage extends Component{
   render(){
     return (
       <div>
-        <StaticNavbar title="E-Libra | Sign Up Page" />
+        <StaticNavbar title="Library Information System | Sign Up Page" />
 
         <SignupForm submit={ this.onSignup } signin={ this.redirectToSignIn } />
       </div>

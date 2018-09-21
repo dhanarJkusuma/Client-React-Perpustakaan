@@ -149,7 +149,7 @@ class DashboardInnerBorrow extends Component{
     const emptyIcon = (
       <div className={ classes.centerIcon }>
         <ShoppingCartIcon color="disabled" className={ classes.bigIcon } />
-        <Typography variant="heading">Cart kosong. </Typography>
+        <Typography variant="heading">Empty Cart. </Typography>
       </div>
     );
     const content = (this.props.cart.length > 0) ? items : emptyIcon;

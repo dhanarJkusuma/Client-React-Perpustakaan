@@ -118,7 +118,7 @@ class DashboardInnerBooks extends Component{
     const emptyIcon = (
       <div className={ classes.centerIcon }>
         <ThumbUpIcon color="disabled" className={ classes.bigIcon } />
-        <Typography variant="heading">Tidak ada transaksi pending. </Typography>
+        <Typography variant="heading">No Pending Transaction</Typography>
       </div>
     );
     const content = (this.state.transactionList.length > 0) ? transactionList : emptyIcon;
@@ -133,7 +133,7 @@ class DashboardInnerBooks extends Component{
           </CardContent>
           <CardActions>
             <Typography variant="headline" className={ classes.trxCount }>
-              Total Pending Transaksi : { transactionList.length }
+              Total Pending Transaction : { transactionList.length }
             </Typography>
           </CardActions>
         </Card>
@@ -148,7 +148,7 @@ class DashboardInnerBooks extends Component{
           open={ this.state.openDialogConfirm }
           handleOpen={ this.handleConfirmAction }
           handleClose={ this.handleConfirmClose }
-          message="Apakah anda yakin ingin melanjutkan transaksi ?"
+          message="Do you really want to continue this transaction ?"
         />
       </div>
     );

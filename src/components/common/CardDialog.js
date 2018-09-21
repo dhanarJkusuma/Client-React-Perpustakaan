@@ -38,7 +38,7 @@ class CardDialog extends Component{
             >
           <div style={modalStyle} className={classes.paper}>
              <Typography type="title" id="modal-title">
-               Peringatan
+               Confirmation
              </Typography>
              <Typography type="subheading" id="simple-modal-description">
                { this.props.message }
@@ -47,10 +47,10 @@ class CardDialog extends Component{
              <br/>
 
             <Button color="secondary" onClick={ this.props.handleOpen } className={classes.logoutButton}>
-               Ya
+               OK
             </Button>
             <Button color="primary" onClick={ this.props.handleClose } className={classes.logoutButton}>
-              Tidak
+              Cancel
             </Button>
 
            </div>

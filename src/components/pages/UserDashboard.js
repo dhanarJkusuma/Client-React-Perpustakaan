@@ -107,7 +107,7 @@ class UserDashboard extends Component{
     const { value } = this.state;
     return (
       <div className={classes.contentCard}>
-        <StaticNavbar title="E-Libra | Dashboard" />
+        <StaticNavbar title="Library Information System | Dashboard" />
         <Switch>
           <AuthRoute authed={this.state.authed} path='/dashboard/watch' component={DashboardInnerBooks}/>
           <AuthRoute authed={this.state.authed} path='/dashboard/borrow' component={DashboardInnerBorrow}/>
@@ -117,10 +117,10 @@ class UserDashboard extends Component{
         </Switch>
 
         <BottomNavigation value={value} onChange={this.handleChange} className={classes.botNavRoot}>
-          <BottomNavigationAction label="Lihat Buku" value="watch" icon={<BookIcon />} />
+          <BottomNavigationAction label="Catalog" value="watch" icon={<BookIcon />} />
 
           <BottomNavigationAction
-            label="Pinjam Buku"
+            label="Cart"
             value="borrow"
             icon={
               <Badge className={classes.badge} badgeContent={ this.props.cart.length } color="primary">
@@ -128,21 +128,21 @@ class UserDashboard extends Component{
               </Badge>
             } />
             <BottomNavigationAction
-              label="Status Peminjaman"
+              label="Status"
               value="status"
               icon={
                 <Badge className={classes.badge} badgeContent={ this.props.pendingTransaction } color="primary">
                   <AnnouncementIcon />
                 </Badge>
               } />
-          <BottomNavigationAction label="Keluar" value="logout" icon={<ExitToAppIcon/>} />
+          <BottomNavigationAction label="Sign Out" value="logout" icon={<ExitToAppIcon/>} />
         </BottomNavigation>
 
         <CardDialog
           open={ this.state.openDialogLogout }
           handleOpen={ this.handleLogoutOpen }
           handleClose={ this.handleLogoutClose }
-          message="Apakah anda yakin ingin keluar dari aplikasi ?"
+          message="Do you really want to logout ?"
         />
 
       </div>

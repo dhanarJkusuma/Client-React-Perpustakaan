@@ -125,7 +125,7 @@ class CardBook extends Component{
           <CardActions>
             <Badge className={classes.margin} badgeContent={ this.state.actualStock } color="primary">
               <Button onClick={ this.handleBorrow } size="small" color="primary" disabled={this.state.emptyStock}>
-                Pinjam
+                Add To Cart
               </Button>
             </Badge>
           </CardActions>
