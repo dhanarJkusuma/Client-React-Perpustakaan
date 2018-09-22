@@ -17,13 +17,13 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    padding: 10,
     justifyContent: 'space-around',
   },
   gridList: {
     width: '100%',
     padding: 10,
     height: maxHeight/2,
-    overflowY: 'auto',
   },
   subheader: {
     width: '100%',
@@ -163,7 +163,7 @@ class DashboardInnerBooks extends Component{
         />
         
 
-        <GridList className={ classes.gridList } padding={10}>
+        <GridList className={ classes.gridList } >
           { listBook }
         </GridList>
 
