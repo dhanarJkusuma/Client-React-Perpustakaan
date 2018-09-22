@@ -3,29 +3,34 @@ import GridList from 'material-ui/GridList';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 
 
 import CardBook from '../common/CardBook';
 import SnackBarMessage from '../common/SnackBarMessage';
-import { fetchAllBook } from '../../actions/books';
+import { fetchAllBook, searchBook } from '../../actions/books';
 import PaginationButton from '../common/PaginationButton';
+import SearchForm from '../common/SearchForm';
 
+const maxHeight = window.screen.height;
 const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden'
   },
   gridList: {
     width: '100%',
     padding: 10,
-    height: 500,
+    height: maxHeight/2,
     overflowY: 'auto',
   },
   subheader: {
     width: '100%',
   },
+  pagination: {
+   
+  }
 });
 
 class DashboardInnerBooks extends Component{
@@ -38,7 +43,8 @@ class DashboardInnerBooks extends Component{
     },
     request: {
       page: 0,
-      size: 15
+      size: 15,
+      query: ""
     },
     cart: [],
     showErrors: false,
@@ -75,7 +81,31 @@ class DashboardInnerBooks extends Component{
     })
   }
 
-  fetchBookWithPagination = (page) => {
+  searchBook = (query, page)  => {
+    let request = {
+      ...this.state.request,
+      query,
+      page
+    }
+    this.setState({
+      request
+    });
+    this.props.searchBook(query, page, this.state.request.size).then(res => {
+      let { data, totalElements, page, totalPage } = res;
+      let result = {
+        ...this.state.data,
+        books: data,
+        totalElements,
+        page,
+        totalPage
+      };
+      this.setState({
+        data: result
+      });
+    });
+  }
+
+  fetchBook = (page) => {
     this.setState({
       page
     });
@@ -94,22 +124,53 @@ class DashboardInnerBooks extends Component{
     });
   }
 
+  fetchBookWithPagination = (page) => {
+    this.setState({
+      page
+    });
+    if(this.state.request.query !== ''){
+      this.searchBook(this.state.request.query, page, this.state.request.size);
+    }else{
+      this.fetchBook(page);
+    }
+  }
+
+  onHandlingSearch = (query) => {
+    this.setState({ page: 0 });
+    if(query !== ''){
+      this.searchBook(query, 0);
+    }else{
+      this.fetchBook(0);
+    }
+  }
+
   render(){
     const { classes } = this.props;
     let listBook = this.state.data.books.map((item, index) => <CardBook key={index} book={item} showErrors={ this.handleShowErrorMessage }/>);
     let pagination = this.state.data.books.length > 0 ? <PaginationButton page={ this.state.data.page } totalPages={ this.state.data.totalPage } onChangePage={ this.fetchBookWithPagination }/> : ""
     return (
       <div className={classes.root}>
+        <Grid container>
+          <Grid item xs={12}>
+            <SearchForm searchEvent={ this.onHandlingSearch }/>
+          </Grid>
+        </Grid>
+        
         <SnackBarMessage
           open={ this.state.showErrors }
           handleClose={ this.handleDismissMessage }
           message={ this.state.errorMessage }
         />
+        
+
         <GridList className={ classes.gridList } padding={10}>
           { listBook }
         </GridList>
 
-        { pagination }
+        <div className={ classes.pagination } >
+          { pagination }
+        </div>
+      
       </div>
     );
   }
@@ -120,4 +181,4 @@ DashboardInnerBooks.propTypes = {
 };
 
 const styledComponent =  withStyles(styles)(DashboardInnerBooks);
-export default connect(null, { fetchAllBook })(styledComponent);
+export default connect(null, { fetchAllBook, searchBook })(styledComponent);

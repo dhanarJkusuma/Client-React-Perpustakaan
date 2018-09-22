@@ -33,7 +33,8 @@ class LoginForm extends Component{
     data: {},
     loading: false,
     errors: {},
-    showErrors: false
+    showErrors: false,
+    errorMessage: ""
   }
 
   onChange = (e) => {
@@ -52,21 +53,12 @@ class LoginForm extends Component{
       let error = {};
       this.setState({ errors: error });
     }, (err) => {
-      let errorMessage = {
+      let errorColl = {
+        ...err.response.data.errors,
         global: err.response.data.message
       }
-      this.setState({ errors: err.response.data.errors })
-      this.setState({ errorMessage });
-    }).catch((err) => {
-      let statusCode = err.response.status;
-      switch (statusCode) {
-        case 403:
-          let error = { global: "Invalid username and password." };
-          this.setState({ errors: error, showErrors: true });
-          break;
-        default:
-          break;
-      }
+      this.setState({ errors: errorColl })
+      this.setState({ showErrors: true });
     });
   }
 
@@ -94,8 +86,8 @@ class LoginForm extends Component{
                className={classes.textField}
                margin="normal"
                onChange={ this.onChange }
-               error={ typeof errors.username !== 'undefined' }
-              helperText={ errors.username !== null && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.username) : "" }
+               error={ errors && typeof errors.username !== 'undefined' }
+               helperText={ errors && typeof errors.username !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.username) : "" }
                
              />
 
@@ -108,8 +100,8 @@ class LoginForm extends Component{
                 autoComplete="current-password"
                 margin="normal"
                 onChange={ this.onChange }
-                error={ typeof errors.password !== 'undefined' }
-                helperText={ errors.password !== null && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.password) : "" }
+                error={ errors && typeof errors.password !== 'undefined' }
+                helperText={ errors && typeof errors.password !== 'undefined' ? ErrorHandlerForm.collectErrorAttributeMessage(errors.password) : "" }
             />
           </CardContent>
           <CardActions>
