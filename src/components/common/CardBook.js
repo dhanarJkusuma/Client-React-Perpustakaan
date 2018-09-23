@@ -114,7 +114,7 @@ class CardBook extends Component{
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image="http://localhost:8080/storage/image/no_image.jpg"
+            image={ this.props.book.coverImage }
             title="Contemplative Reptile"
           />
           <CardContent>
