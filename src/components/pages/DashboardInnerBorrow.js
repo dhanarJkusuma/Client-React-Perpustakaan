@@ -107,7 +107,7 @@ class DashboardInnerBorrow extends Component{
     if(this.props.cart.length > 0){
       this.setState({ openDialogConfirm: true });
     }else{
-      this.handleShowErrorMessage("Tidak dapat melanjutkan transaksi, keranjang kosong !!!");
+      this.handleShowErrorMessage("Can't proceed the transaction, cart is empty !");
     }
 
   }
@@ -148,6 +148,7 @@ class DashboardInnerBorrow extends Component{
         <Typography variant="heading">Empty Cart. </Typography>
       </div>
     );
+    
     const content = (this.props.cart.length > 0) ? items : emptyIcon;
     return (
       <div>
@@ -178,7 +179,7 @@ class DashboardInnerBorrow extends Component{
           open={ this.state.openDialogConfirm }
           handleOpen={ this.handleConfirmOpen }
           handleClose={ this.handleConfirmClose }
-          message="Apakah anda yakin ingin melanjutkan transaksi ?"
+          message="Do you want to proceed the transaction ? "
         />
       </div>
     );

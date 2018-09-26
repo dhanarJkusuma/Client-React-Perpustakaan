@@ -30,11 +30,11 @@ export default function (state=INITIAL_STATE, action={}){
         data: state.data.slice()
       };
     case DELETE_CART:
-      let unDeletedCart = state.data;
+      let unDeletedCart = state.data.slice();
       unDeletedCart.splice(action.payload, 1);
       return {
         ...state,
-        data: unDeletedCart.slice(),
+        data: unDeletedCart
       }
     case CLEAR_CART:
       let emptyData = [];

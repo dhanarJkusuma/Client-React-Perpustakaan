@@ -80,7 +80,7 @@ class CardTransaction extends Component {
     if(stock - (foundedBook.quantity + 1) >=  0){
       this.updateStockItemCart(index, foundedBook.quantity + 1);
     }else{
-      this.props.showErrors(foundedBook.title + " Kosong !!!");
+      this.props.showErrors(foundedBook.title + " is Empty !!!");
     }
   }
 
@@ -153,15 +153,15 @@ CardTransaction.propTypes = {
   book: PropTypes.shape({
     code: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    editor: PropTypes.string.isRequired,
-    publisher: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    stock: PropTypes.number.isRequired,
-    totalStock: PropTypes.number.isRequired,
-    createdOn: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
-    quantity: PropTypes.number.isRequired
+    author: PropTypes.string,
+    editor: PropTypes.string,
+    publisher: PropTypes.string,
+    year: PropTypes.number,
+    stock: PropTypes.number,
+    totalStock: PropTypes.number,
+    createdOn: PropTypes.string,
+    categories: PropTypes.array,
+    quantity: PropTypes.number
   }).isRequired,
   deleteCart: PropTypes.func.isRequired,
   replaceStockCart: PropTypes.func.isRequired,

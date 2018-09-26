@@ -3,6 +3,9 @@ import GridList from 'material-ui/GridList';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+import teal from 'material-ui/colors/teal';
+
 import Grid from 'material-ui/Grid';
 
 
@@ -48,10 +51,12 @@ class DashboardInnerBooks extends Component{
     },
     cart: [],
     showErrors: false,
-    errorMessage: null
+    errorMessage: null,
+    showLoading: false
   }
 
   componentDidMount(){
+    this.setState({ showLoading: true });
     this.props.fetchAllBook(this.state.request.page, this.state.request.size).then(res => {
       let { data, totalElements, page, totalPage } = res;
       let result = {
@@ -62,7 +67,8 @@ class DashboardInnerBooks extends Component{
         totalPage
       };
       this.setState({
-        data: result
+        data: result,
+        showLoading: false
       });
     });
   }
@@ -148,6 +154,11 @@ class DashboardInnerBooks extends Component{
     const { classes } = this.props;
     let listBook = this.state.data.books.map((item, index) => <CardBook key={index} book={item} showErrors={ this.handleShowErrorMessage }/>);
     let pagination = this.state.data.books.length > 0 ? <PaginationButton page={ this.state.data.page } totalPages={ this.state.data.totalPage } onChangePage={ this.fetchBookWithPagination }/> : ""
+    const loading = (
+      <div className={classes.centerLoading}>
+        <CircularProgress className={classes.progress} style={{ color: teal[500] }} thickness={7} />
+      </div>
+    )
     return (
       <div className={classes.root}>
         <Grid container>
@@ -162,7 +173,7 @@ class DashboardInnerBooks extends Component{
           message={ this.state.errorMessage }
         />
         
-
+        { this.state.showLoading && loading }
         <GridList className={ classes.gridList } >
           { listBook }
         </GridList>

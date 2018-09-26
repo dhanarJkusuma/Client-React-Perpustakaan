@@ -103,7 +103,7 @@ class CardBook extends Component{
 
   handleEmptyStock = () => {
     this.setState({ emptyStock: true })
-    this.props.showErrors("Kosong Empty !!!");
+    this.props.showErrors("Empty Stock !!!");
   }
 
 

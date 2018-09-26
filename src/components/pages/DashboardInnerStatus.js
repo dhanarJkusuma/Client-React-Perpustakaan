@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+import teal from 'material-ui/colors/teal';
 import List, { ListItem } from 'material-ui/List';
 import CardTransactionStatus from '../common/CardTransactionStatus';
 import PropTypes from 'prop-types';
@@ -53,17 +55,21 @@ class DashboardInnerBooks extends Component{
     transactionList: [],
     selectedTrx: null,
     showNotif: false,
-    notifMessage: null
+    notifMessage: null,
+    showLoading: false
   }
   
   componentDidMount(){
     this.fetchIncompleteTransaction();
   }
 
-  fetchIncompleteTransaction = () => this.props.getIncompleteTransaction().then(res => {
-    this.setState({ transactionList: res });
-    this.handleUpdatePendingTransaction(res.length);
-  });
+  fetchIncompleteTransaction = () => {
+    this.setState({ showLoading: true });
+    this.props.getIncompleteTransaction().then(res => {
+      this.setState({ transactionList: res, showLoading: false });
+      this.handleUpdatePendingTransaction(res.length);
+    });
+  }
 
   handleCompleteTransaction = (trxId, payload) => this.props.completeTransaction(trxId, payload).then(res => {
     this.showNotifMessage(res.data.message);
@@ -107,6 +113,11 @@ class DashboardInnerBooks extends Component{
 
   render(){
     const { classes } = this.props;
+    const loading = (
+      <div className={classes.centerLoading}>
+        <CircularProgress className={classes.progress} style={{ color: teal[500] }} thickness={7} />
+      </div>
+    )
     const transactionList = this.state.transactionList.map((t, index) =>
       <ListItem key={ t.publicId }>
         <CardTransactionStatus
@@ -127,6 +138,7 @@ class DashboardInnerBooks extends Component{
 
         <Card className={classes.cardContent}>
           <CardContent className={classes.cardList}>
+            { this.state.showLoading && loading }
             <List className={classes.list}>
                 { content }
             </List>

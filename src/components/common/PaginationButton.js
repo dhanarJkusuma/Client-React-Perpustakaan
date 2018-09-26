@@ -14,7 +14,7 @@ const styles = theme => ({
       display: 'none',
     },
     root: theme.mixins.gutters({
-        padding: 5,
+        padding: 3,
     }),
   });
 
@@ -29,7 +29,7 @@ class PaginationButton extends React.Component{
         var buttons = []
         if(page > 2){
             buttons.push(
-                <Button key={ -1 } raised color="primary"  className={ classes.button } onClick={ () => this.handleChangePage(0) }>
+                <Button key={ -1 } fab color="primary"  className={ classes.button } onClick={ () => this.handleChangePage(0) }>
                     <FastRewindIcon />
                 </Button>
             );
@@ -39,14 +39,14 @@ class PaginationButton extends React.Component{
         for(let index = startPage; index < endPage; index++){
             let currentPage = index === page;
             buttons.push(
-                <Button key={ index } raised color="primary" disabled={ currentPage } className={ classes.button } onClick={ () => this.handleChangePage(index) }>
+                <Button key={ index } fab color="primary" disabled={ currentPage } className={ classes.button } onClick={ () => this.handleChangePage(index) }>
                     { index + 1 }
                 </Button>
             );
         }
         if(page < totalPages - 3){
             buttons.push(
-                <Button key={ totalPages } raised color="primary"  className={ classes.button } onClick={ () => this.handleChangePage(totalPages - 1) }>
+                <Button key={ totalPages } fab color="primary"  className={ classes.button } onClick={ () => this.handleChangePage(totalPages - 1) }>
                     <FastForwardIcon />
                 </Button>
             );
